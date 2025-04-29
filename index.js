@@ -7,9 +7,23 @@ const PORT = 3000;
 app.use(express.json());
 
 // ✅ Obtener todos los empleados
-app.get('/empleados', async (req, res) => {
+app.get('/empleados/:id', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM empleados');
+    const [rows] = await pool.query(`SELECT 
+    trabajos.tiempoProduccion,puestos.nombrePuesto,empleados.nombreEmpleado,empleados.apellidoEmpleado,procesos.fechaInicio,procesos.cantidadProducto,productos.nombreProducto
+FROM 
+    trabajos
+JOIN 
+	empleados ON trabajos.idEmpleado = empleados.idEmpleado
+JOIN 
+    puestos ON trabajos.idPuesto = puestos.idPuesto
+JOIN 
+    procesos ON trabajos.idProceso = procesos.idProceso
+JOIN
+	productos ON procesos.idProducto = productos.idProducto
+WHERE
+	empleados.idEmpleado = ?
+`,[id]);
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
