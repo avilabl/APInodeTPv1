@@ -8,6 +8,7 @@ app.use(express.json());
 
 // ✅ Obtener todos los empleados
 app.get('/empleados/:id', async (req, res) => {
+	const { id } = req.params;
   try {
     const [rows] = await pool.query(`SELECT 
     trabajos.tiempoProduccion,puestos.nombrePuesto,empleados.nombreEmpleado,empleados.apellidoEmpleado,procesos.fechaInicio,procesos.cantidadProducto,productos.nombreProducto
