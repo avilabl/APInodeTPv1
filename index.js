@@ -31,6 +31,20 @@ WHERE
   }
 });
 
+app.post('/empleados', async (req, res) => {
+  const { idEmpleado, nombreEmpleado, apellidoEmpleado } = req.body;
+
+  try {
+    const [result] = await pool.query(
+      'INSERT INTO empleados (idEmpleado, nombreEmpleado, apellidoEmpleado) VALUES (?, ?, ?)',
+      [idEmpleado, nombreEmpleado, apellidoEmpleado]
+    );
+    res.json({ idEmpleado: result.insertId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/roles', async (req, res) => {
     try {
       const [rows] = await pool.query('SELECT * FROM roles');
