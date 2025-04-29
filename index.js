@@ -31,13 +31,22 @@ WHERE
   }
 });
 
+app.get('/empleados/todos', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`SELECT * FROM empleados`,);
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.post('/empleados', async (req, res) => {
-  const { idEmpleado, nombreEmpleado, apellidoEmpleado } = req.body;
+  const { idEmpleado, nombreEmpleado, apellidoEmpleado,fechaIngreso } = req.body;
 
   try {
     const [result] = await pool.query(
-      'INSERT INTO empleados (idEmpleado, nombreEmpleado, apellidoEmpleado) VALUES (?, ?, ?)',
-      [idEmpleado, nombreEmpleado, apellidoEmpleado]
+      'INSERT INTO empleados (idEmpleado, nombreEmpleado, apellidoEmpleado,fechaIngreso) VALUES (?, ?, ?,?)',
+      [idEmpleado, nombreEmpleado, apellidoEmpleado,fechaIngreso]
     );
     res.json({ idEmpleado: result.insertId });
   } catch (err) {
