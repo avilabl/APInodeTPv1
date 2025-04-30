@@ -41,12 +41,12 @@ app.get('/empleados/todos', async (req, res) => {
 });
 
 app.post('/empleados', async (req, res) => {
-  const { idEmpleado, nombreEmpleado, apellidoEmpleado,fechaIngreso } = req.body;
+  const { nombreEmpleado, apellidoEmpleado,fechaIngreso } = req.body;
 
   try {
     const [result] = await pool.query(
-      'INSERT INTO empleados (idEmpleado, nombreEmpleado, apellidoEmpleado,fechaIngreso) VALUES (?, ?, ?,?)',
-      [idEmpleado, nombreEmpleado, apellidoEmpleado,fechaIngreso]
+      'INSERT INTO empleados (nombreEmpleado, apellidoEmpleado,fechaIngreso) VALUES (?, ?,?)',
+      [nombreEmpleado, apellidoEmpleado,fechaIngreso]
     );
     res.json({ idEmpleado: result.insertId });
   } catch (err) {
